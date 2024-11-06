@@ -110,15 +110,15 @@ def setTableProperties(table, headersLen, hiddenColumnIndexes = []):
 def checkHydraResults(output):
     usernames = []
     passwords = []
-    string = '\[[0-9]+\]\[[a-z-]+\].+'                                  # when a password is found, the line contains [port#][plugin-name]      
+    string = r'\[[0-9]+\]\[[a-z-]+\].+'                                  # when a password is found, the line contains [port#][plugin-name]      
     results = re.findall(string, output, re.I)
     if results:
         for line in results:
-            login = re.search('(login:[\s]*)([^\s]+)', line)
+            login = re.search(r'(login:[\s]*)([^\s]+)', line)
             if login:
                 print('Found username: ' + login.group(2))
                 usernames.append(login.group(2))
-            password = re.search('(password:[\s]*)([^\s]+)', line)
+            password = re.search(r'(password:[\s]*)([^\s]+)', line)
             if password:
                 #print('Found password: ' + password.group(2))
 
@@ -349,7 +349,7 @@ def sanitise(string):                                                   # this f
     return s
     
 def validateNmapInput(text):                                            # validate nmap input entered in Add Hosts dialog
-    if re.search('[^a-zA-Z0-9\.\/\-\s]', text) is not None:
+    if re.search(r'[^a-zA-Z0-9\.\/\-\s]', text) is not None:
         return False
     return True
 
@@ -377,7 +377,7 @@ def validateStringWithSpace(text):                                      # only a
     return False
 
 def validateNmapPorts(text):                                            # only allows alphanumeric characters and the following: ./-'"*,:[any kind of space]
-    if re.search('[^a-zA-Z0-9\.\/\-\'\"\*\,\:\s]', text) is not None:
+    if re.search(r'[^a-zA-Z0-9\.\/\-\'\"\*\,\:\s]', text) is not None:
         return False
     return True
 
